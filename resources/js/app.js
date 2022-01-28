@@ -7,6 +7,8 @@
 require('./bootstrap');
 
 import { createApp } from "vue";
+import store from "./store"; 
 import App from './components/App.vue'
-const app = createApp(App)
+const app = createApp(App).use(store);
 app.mount("#App")
+
