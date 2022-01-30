@@ -4,6 +4,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\prestationController;
 use App\Http\Controllers\clientController;
+use App\Http\Controllers\userController;
+use App\Http\Controllers\authController;
+
+use App\Http\Middleware\isAdmin;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,6 +23,20 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-route::apiResource('prestation', prestationController::class);
-route::apiResource('client', clientController::class);
-route::post('importClients',[clientController::class,'importFile']);
+
+Route::post("signin", [authController::class, "login"]);
+
+
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get("signout", [authController::class, "logout"]);
+
+
+    route::middleware(isAdmin::class)->group(function () {
+
+        route::apiResource('user', userController::class);
+        route::apiResource('prestation', prestationController::class);
+        route::apiResource('client', clientController::class);
+        route::post('importClients', [clientController::class, 'importFile']);
+    });
+});
