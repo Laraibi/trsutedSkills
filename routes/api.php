@@ -21,3 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 route::apiResource('prestation', prestationController::class);
 route::apiResource('client', clientController::class);
+route::post('importClients',[clientController::class,'importFile']);

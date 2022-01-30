@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\client;
+use Illuminate\Support\Facades\Storage;
+use App\Imports\clientsImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class clientController extends Controller
 {
@@ -92,5 +95,16 @@ class clientController extends Controller
         }
         $deletedState = $client->delete();
         return response()->json(['deletedState' => $deletedState, "deletedElement" => $client], 200);
+    }
+
+    public function importFile(Request $request)
+    {
+        $request->validate(['file' => 'required|mimes:xlsx,xls']);
+        $file = $request->file('file');
+
+        $path = $file->storeAs('excelImports', "import.xlsx");
+        $importObject = new clientsImport;
+        Excel::import($importObject, $path);
+        return response()->json(['importedCount' => $importObject->importedCount]);
     }
 }
