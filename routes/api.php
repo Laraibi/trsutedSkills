@@ -6,7 +6,7 @@ use App\Http\Controllers\prestationController;
 use App\Http\Controllers\clientController;
 use App\Http\Controllers\userController;
 use App\Http\Controllers\authController;
-
+use App\Http\Controllers\codifController;
 use App\Http\Middleware\isAdmin;
 /*
 |--------------------------------------------------------------------------
@@ -30,8 +30,9 @@ Route::post("signin", [authController::class, "login"]);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get("signout", [authController::class, "logout"]);
+    route::apiResource('codif', codifController::class);
 
-
+    
     route::middleware(isAdmin::class)->group(function () {
 
         route::apiResource('user', userController::class);

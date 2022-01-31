@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\codif;
 class client extends Model
 {
     use HasFactory;
@@ -19,4 +19,8 @@ class client extends Model
         'email',
         'website',
     ];
+    public function codifs()
+    {
+        return $this->hasMany(codif::class);
+    }
 }
