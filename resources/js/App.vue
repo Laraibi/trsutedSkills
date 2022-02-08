@@ -1,28 +1,44 @@
 <template>
-  <div class="wrapper">
-    <nav-bar/>
+  <div class="wrapper" v-if="loggedUser.user">
+    <nav-bar />
     <div class="content-wrapper">
       <section class="content">
         <router-view></router-view>
       </section>
     </div>
   </div>
+  <div v-else class="loginBox mt-5 row justify-content-center">
+    <auth class="col-4" />
+  </div>
 </template>
 
 <script>
-// import prestationsList from "./components/prestation/prestationsList.vue";s
 import navBar from "./components/navBar.vue";
+import auth from "./components/auth.vue";
+import { mapGetters } from "vuex";
+import { mapMutations } from "vuex";
+
 export default {
   components: {
     navBar,
+    auth,
   },
   data() {
     return {};
   },
   created() {
-    // this.$store.dispatch("getPrestations");
+    let LSloggedUser = localStorage.getItem("loggedUser");
+    if (LSloggedUser) {
+      this.setLoggedUser(JSON.parse(LSloggedUser));
+      this.$router.push("Home");
+    }
   },
-  methods: {},
+  methods: {
+    ...mapMutations(["setLoggedUser"]),
+  },
+  computed: {
+    ...mapGetters(["loggedUser"]),
+  },
 };
 </script>
 

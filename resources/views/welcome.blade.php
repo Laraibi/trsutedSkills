@@ -22,6 +22,19 @@
     <link rel="stylesheet" href="{{asset('/adminLteSources/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{asset('/adminLteSources/dist/css/adminlte.min.css')}}">
+    <style>
+        #App {
+            background-color: #F0F2F5;
+            padding: 0;
+            margin: 0;
+            max-width: 100vw !important;
+            overflow: hidden;
+            min-height: 100vh;
+        }
+        .wrapper{
+            min-height: 100vh;
+        }
+    </style>
 </head>
 
 <body id="App">

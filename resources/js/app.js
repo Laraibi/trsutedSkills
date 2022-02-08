@@ -5,7 +5,6 @@
  */
 
 require('./bootstrap');
-
 import { createApp } from "vue";
 import store from "./store"; 
 import router from "./router"; 
