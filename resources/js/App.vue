@@ -8,7 +8,7 @@
     </div>
   </div>
   <div v-else class="loginBox mt-5 row justify-content-center">
-    <auth class="col-4" />
+    <auth class="col-md-4 col-sm-8" />
   </div>
 </template>
 
