@@ -28,7 +28,7 @@
             padding: 0;
             margin: 0;
             max-width: 100vw !important;
-            overflow: hidden;
+            overflow-x: hidden;
             min-height: 100vh;
         }
         .wrapper{

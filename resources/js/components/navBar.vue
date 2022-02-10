@@ -236,6 +236,12 @@
               <p>Home</p>
             </router-link>
           </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="customers">
+              <i class="nav-icon far fa-circle text-info"></i>
+              <p>Clients</p>
+            </router-link>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

@@ -24,5 +24,8 @@ export const client = {
         clientsCount(state) {
             return state.clients.length;
         },
+        clients(state) {
+            return state.clients;
+        },
     },
 };

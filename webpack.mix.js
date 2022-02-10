@@ -1,6 +1,6 @@
 const mix = require('laravel-mix');
 mix.browserSync({
-    proxy: 'trustedskills.local'
+    proxy: 'http://localhost:3000/'
 });
 /*
  |--------------------------------------------------------------------------
