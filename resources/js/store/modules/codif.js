@@ -1,6 +1,8 @@
+import axios from "axios";
+
 export const codif = {
     state: {
-        codifs: {},
+        codifs: [],
     },
     mutations: {
         fillCodifs(state, codifs) {

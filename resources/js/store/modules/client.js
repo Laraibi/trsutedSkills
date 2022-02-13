@@ -5,11 +5,14 @@ export const client = {
         clients: [],
     },
     mutations: {
-        fillClients(state, clients) {
+        FILL_CLIENTS(state, clients) {
             state.clients = clients;
         },
         DELETE_CLIENT(state, id) {
             state.clients = state.clients.filter((client) => client.id != id);
+        },
+        UPDATE_CLIENT(state, { index, newClient }) {
+            state.clients[index] = newClient;
         },
     },
     actions: {
@@ -21,7 +24,7 @@ export const client = {
                     },
                 })
                 .then((response) => {
-                    commit("fillClients", response.data);
+                    commit("FILL_CLIENTS", response.data);
                 });
         },
         deleteClient({ commit, getters }, id) {
@@ -35,13 +38,29 @@ export const client = {
                     commit("DELETE_CLIENT", response.data.deletedElement.id);
                 });
         },
+        updateClient({ commit, getters }, { index, playLoad }) {
+            return axios
+                .put(`api/client/${getters.clients[index].id}`, playLoad, {
+                    headers: {
+                        Authorization: `Bearer ${getters.loggedUser.access_token}`,
+                    },
+                })
+                .then((response) => {
+                    commit("UPDATE_CLIENT", {
+                        index: index,
+                        newClient: response.data,
+                    });
+                });
+        },
     },
     getters: {
         clientsCount(state) {
             return state.clients.length;
         },
         clients(state) {
-            return state.clients;
+            return state.clients.map((elem) => {
+                return { ...elem };
+            });
         },
     },
 };

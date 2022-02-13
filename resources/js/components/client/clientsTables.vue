@@ -81,14 +81,8 @@
                 <td>{{ client.city }}</td>
                 <td>{{ client.tel1 }}</td>
                 <td>
-                    <button v-if="toDeleteID != id" class="btn btn-info mx-1">
+                    <button @click="showClient(id)" v-if="toDeleteID != id" class="btn btn-info mx-1">
                         Show
-                    </button>
-                    <button
-                        v-if="toDeleteID != id"
-                        class="btn btn-warning mx-1"
-                    >
-                        Edit
                     </button>
                     <button
                         @click="localDelete(id)"
@@ -98,6 +92,7 @@
                         Delete
                     </button>
                     <div class="w-100" v-else>
+                        <span class="text-red"> Confirmation </span><br>
                         <button
                             @click="confirmDelete()"
                             class="w-40 f btn btn-success"
@@ -124,17 +119,23 @@
             </tr>
         </tfoot>
     </table>
+    <show-client @close="showClientID=-1" :clientIndex="showClientID" v-if="showClientID != -1" />
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
+import showClient from "./showClient.vue";
 import { useToast } from "vue-toastification";
 const toast = useToast();
 export default {
+    components: {
+        showClient,
+    },
     data() {
         return {
             toDeleteID: -1,
+            showClientID: -1,
         };
     },
     computed: {
@@ -154,6 +155,9 @@ export default {
         },
         cancelDelete() {
             this.toDeleteID = -1;
+        },
+        showClient(id) {
+            this.showClientID = id;
         },
     },
 };
