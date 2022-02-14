@@ -1,10 +1,15 @@
+import axios from "axios";
+
 export const prospect = {
     state: {
-        prospects: {},
+        prospects: [],
     },
     mutations: {
-        fillProspects(state, prospects) {
+        FILL_PROSPECTS(state, prospects) {
             state.prospects = prospects;
+        },
+        PUSH_PROSPECT(state, prospect) {
+            state.prospects.push(prospect);
         },
     },
     actions: {
@@ -16,13 +21,27 @@ export const prospect = {
                     },
                 })
                 .then((response) => {
-                    commit("fillProspects", response.data);
+                    commit("FILL_PROSPECTS", response.data);
+                });
+        },
+        addProspect({ commit, getters }, playLoad) {
+            return axios
+                .post("api/user", playLoad, {
+                    headers: {
+                        Authorization: `Bearer ${getters.loggedUser.access_token}`,
+                    },
+                })
+                .then((response) => {
+                    commit("PUSH_PROSPECT", response.data.user);
                 });
         },
     },
     getters: {
         prospectsCount(state) {
             return state.prospects.length;
+        },
+        prospects(state) {
+            return state.prospects;
         },
     },
 };

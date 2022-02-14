@@ -273,6 +273,12 @@
                             <p>Clients</p>
                         </router-link>
                     </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link" to="prospects">
+                            <i class="nav-icon far fa-circle text-info"></i>
+                            <p>Prospects</p>
+                        </router-link>
+                    </li>
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->
@@ -305,7 +311,7 @@ export default {
 <style>
 aside {
     position: relative;
-}
+}   
 .logoutLink {
     position:absolute;
     bottom: 0;

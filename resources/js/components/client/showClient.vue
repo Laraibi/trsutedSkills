@@ -33,6 +33,7 @@
                                     name="entreprise"
                                     id="Entreprise"
                                     class="form-control"
+                                    disabled="disabled"
                                     v-model="client.companyName"
                                 />
                             </div>

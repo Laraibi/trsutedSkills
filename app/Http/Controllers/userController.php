@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+// use Illuminate\Database\Schema\Builder;
+use Illuminate\Database\Eloquent\Builder;
 
 class userController extends Controller
 {
@@ -16,7 +18,15 @@ class userController extends Controller
     public function index()
     {
         //
-        return response()->json(User::all());
+        $prospects = User::where('role', 2)->withCount([
+            'codifs as codifsCount', 'rappels as rappelsInQueueCount' => function (Builder $query) {
+                $query->where('isHonored', false);
+            }
+        ])->get();
+
+
+
+        return response()->json($prospects);
     }
 
 
@@ -42,7 +52,11 @@ class userController extends Controller
         ]);
 
         return response()->json([
-            'user' => $user,
+            'user' => $user->loadCount([
+                'codifs as codifsCount', 'rappels as rappelsInQueueCount' => function (Builder $query) {
+                    $query->where('isHonored', false);
+                }
+            ]),
         ]);
     }
 
@@ -107,6 +121,4 @@ class userController extends Controller
         $User->delete();
         return response()->json($User);
     }
-
-
 }
