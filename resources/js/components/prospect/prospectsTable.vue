@@ -1,5 +1,5 @@
 <template>
-    <table class="table">
+    <table class="table text-center">
         <thead>
             <tr>
                 <th>#</th>
@@ -14,7 +14,11 @@
                 <th>{{ index + 1 }}</th>
                 <td>{{ prospect.name }}</td>
                 <td>{{ prospect.codifsCount }}</td>
-                <td>{{ 'lastConnexion' }}</td>
+                <td>
+                    {{
+                        prospect.lastConnection ? prospect.lastConnection : "--"
+                    }}
+                </td>
                 <td>{{ prospect.rappelsInQueueCount }}</td>
             </tr>
         </tbody>

@@ -35,7 +35,7 @@ Route::middleware('auth:sanctum')->group(function () {
     route::apiResource('codif', codifController::class);
     route::apiResource('rdv', rdvController::class);
     route::apiResource('rappel', rappelController::class);
-    
+    route::post('searchRappel', [rappelController::class, 'searchRappel']);
     route::middleware(isAdmin::class)->group(function () {
         route::apiResource('user', userController::class);
         route::apiResource('prestation', prestationController::class);

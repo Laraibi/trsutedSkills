@@ -46,9 +46,9 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row justify-content-end mt-2">
         <div class="col-4">
-            <button class="btn-success w-100" @click="addProspect">
+            <button class="btn btn-success w-100" @click="addProspect">
                 Ajouter
             </button>
         </div>

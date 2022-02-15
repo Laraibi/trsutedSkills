@@ -111,4 +111,13 @@ class rappelController extends Controller
             'rappel' => $rappel
         ]);
     }
+
+    public function searchRappel(Request $request)
+    {
+        $request->validate(['prospectId' => 'required|Numeric', 'dateFrom' => 'required', 'dateTo' => "required"]);
+        $rappels = rappel::where('prospect_id', $request->prospectId)
+            ->where('rappelDT', ">=", $request->dateFrom)
+            ->where('rappelDT', "<=", $request->dateTo)->get();
+        return response()->json($rappels);
+    }
 }
