@@ -139,6 +139,22 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <span>Planifier un rappel</span>
+                        </div>
+                        <div class="col-4">
+                            <Datepicker autoApply  v-model="dateRappel" />
+                        </div>
+                        <div class="col-4">
+                            <button
+                                class="btn btn-primary"
+                                @click="planifierRappel"
+                            >
+                                Planifer
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button
@@ -166,6 +182,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import Datepicker from "vue3-date-time-picker";
 import { useToast } from "vue-toastification";
 const toast = useToast();
 export default {
@@ -175,9 +192,13 @@ export default {
             required: true,
         },
     },
+    components: {
+        Datepicker,
+    },
     data() {
         return {
             client: {},
+            dateRappel: "",
         };
     },
     mounted() {
@@ -195,6 +216,23 @@ export default {
                 })
                 .then(() => {
                     toast.warning("client updated");
+                });
+        },
+        planifierRappel() {
+            this.$store
+                .dispatch("planifierRappel", {
+                    client_id: this.client.id,
+                    codif_id: 1,
+                    rappelDT: this.dateRappel,
+                })
+                .then(() => {
+                    toast.success("rappel programmé");
+                })
+                .catch((err) => {
+                    let errors = err.response.data.errors;
+                    Object.keys(errors).forEach((error) => {
+                        toast.error(`${error}: ${errors[error]}`);
+                    });
                 });
         },
     },

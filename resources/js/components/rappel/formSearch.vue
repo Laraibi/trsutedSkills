@@ -3,23 +3,17 @@
         <div class="col-3">
             <div class="form-group">
                 <label for="dateFrom" class="from-label">From : </label>
-                <input
-                    type="text"
+                <Datepicker
+                    autoApply
                     id="dateFrom"
                     v-model="dateFrom"
-                    class="form-control"
-                />
+                ></Datepicker>
             </div>
         </div>
         <div class="col-3">
             <div class="form-group">
                 <label for="dateTo" class="from-label"> To : </label>
-                <input
-                    type="text"
-                    id="dateTo"
-                    v-model="dateTo"
-                    class="form-control"
-                />
+                <Datepicker autoApply id="dateTo" v-model="dateTo"></Datepicker>
             </div>
         </div>
         <div class="col-3">
@@ -31,8 +25,9 @@
                     id="prospecteur"
                     class="form-select"
                 >
+                    <option value="*">All</option>
                     <option
-                        value="prospect.id"
+                        :value="prospect.id"
                         v-for="(prospect, index) in prospects"
                         :key="index"
                     >
@@ -42,17 +37,22 @@
             </div>
         </div>
         <div class="col-3 d-flex align-items-baseline">
-            <button class="btn btn-primary" @click="serachRappels">
-                Search
-            </button>
+            <button class="btn btn-primary" @click="search">Search</button>
         </div>
     </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import { mapActions } from "vuex";
+import Datepicker from "vue3-date-time-picker";
+import { useToast } from "vue-toastification";
+const toast = useToast();
 export default {
-    date() {
+    components: {
+        Datepicker,
+    },
+    data() {
         return {
             dateFrom: "",
             dateTo: "",
@@ -63,8 +63,18 @@ export default {
         ...mapGetters(["prospects"]),
     },
     methods: {
-        searchRappels() {
-            console.log("hello world");
+        ...mapActions(["searchRappels"]),
+        search() {
+            this.searchRappels({
+                dateFrom: this.dateFrom,
+                dateTo: this.dateTo,
+                prospectId: this.prospectId,
+            }).catch((err) => {
+                let errors = err.response.data.errors;
+                Object.keys(errors).forEach((error) => {
+                    toast.error(`${error}: ${errors[error]}`);
+                });
+            });
         },
     },
 };

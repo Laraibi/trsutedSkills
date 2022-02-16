@@ -69,23 +69,31 @@ export default {
     },
     methods: {
         addProspect() {
-            if (this.password != this.passwordConfirm) {
-                toast.error("Passwords non conformes");
-                return;
-            }
-            if (this.name == "" || this.email == "") {
-                toast.error("Remplissez le formulaire SVP");
-                return;
-            }
+            // if (this.password != this.passwordConfirm) {
+            //     toast.error("Passwords non conformes");
+            //     return;
+            // }
+            // if (this.name == "" || this.email == "") {
+            //     toast.error("Remplissez le formulaire SVP");
+            //     return;
+            // }
             let playLoad = {
                 name: this.name,
                 email: this.email,
                 password: this.password,
                 passwordConfirm: this.passwordConfirm,
             };
-            this.$store.dispatch("addProspect", playLoad).then(() => {
-                toast.success("Prospect Ajouté");
-            });
+            this.$store
+                .dispatch("addProspect", playLoad)
+                .then(() => {
+                    toast.success("Prospect Ajouté");
+                })
+                .catch((err) => {
+                    let errors = err.response.data.errors;
+                    Object.keys(errors).forEach((error) => {
+                        toast.error(`${error}: ${errors[error]}`);
+                    });
+                });
         },
     },
 };

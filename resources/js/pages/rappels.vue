@@ -13,20 +13,30 @@
             ></dash-card>
         </div>
     </div>
-    <div class="row">
-        <form-search />
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <form-search />
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <rappels-table />
+        </div>
     </div>
 </template>
 
 <script>
 import dashCard from "../components/dashCard.vue";
 import formSearch from "../components/rappel/formSearch.vue";
+import rappelsTable from "../components/rappel/rappelsTable.vue";
 import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
+
 export default {
     components: {
         dashCard,
         formSearch,
+        rappelsTable,
     },
     computed: {
         ...mapGetters(["rappels"]),

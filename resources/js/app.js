@@ -10,6 +10,7 @@ import store from "./store";
 import router from "./router"; 
 import App from './App.vue'
 import Toast from "vue-toastification";
+import 'vue3-date-time-picker/dist/main.css'
 // Import the CSS or use your own!
 import "vue-toastification/dist/index.css";
 const app = createApp(App).use(store).use(Toast).use(router);

@@ -114,10 +114,16 @@ class rappelController extends Controller
 
     public function searchRappel(Request $request)
     {
-        $request->validate(['prospectId' => 'required|Numeric', 'dateFrom' => 'required', 'dateTo' => "required"]);
-        $rappels = rappel::where('prospect_id', $request->prospectId)
-            ->where('rappelDT', ">=", $request->dateFrom)
-            ->where('rappelDT', "<=", $request->dateTo)->get();
-        return response()->json($rappels);
+        $request->validate(['prospectId' => 'required', 'dateFrom' => 'required', 'dateTo' => "required"]);
+        if ($request->prospectId != "*") {
+
+            $rappels = rappel::where('prospect_id', $request->prospectId)
+                ->where('rappelDT', ">=", $request->dateFrom)
+                ->where('rappelDT', "<=", $request->dateTo)->get();
+        } else {
+            $rappels = rappel::where('rappelDT', ">=", $request->dateFrom)
+                ->where('rappelDT', "<=", $request->dateTo)->get();
+        }
+        return response()->json($rappels->load(['client', 'prospect']));
     }
 }
