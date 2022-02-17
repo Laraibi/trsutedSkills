@@ -23058,7 +23058,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var vue_toastification__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-toastification */ "./node_modules/vue-toastification/dist/index.mjs");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -23066,8 +23067,48 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
+
+var toast = (0,vue_toastification__WEBPACK_IMPORTED_MODULE_0__.useToast)();
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["prospects"]))
+  data: function data() {
+    return {
+      user_id: "",
+      action: ""
+    };
+  },
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["prospects"])),
+  methods: {
+    resetPass: function resetPass(id) {
+      this.user_id = id;
+      this.action = "resetUserPass";
+    },
+    deleteProspect: function deleteProspect(id) {
+      this.user_id = id;
+      this.action = "deleteUser";
+    },
+    confirm: function confirm() {
+      if (this.action == "resetUserPass") {
+        this.$store.dispatch("resetUserPass", {
+          user_id: this.user_id
+        }).then(function () {
+          return toast.success("Pass Reseted");
+        });
+      } else {
+        this.$store.dispatch("deleteUser", {
+          user_id: this.user_id
+        }).then(function () {
+          return toast.success("User Deleted");
+        });
+      }
+
+      this.user_id = "";
+      this.action = "";
+    },
+    cancel: function cancel() {
+      this.user_id = "";
+      this.action = "";
+    }
+  }
 });
 
 /***/ }),
@@ -24453,7 +24494,22 @@ var _hoisted_1 = {
   "class": "table text-center"
 };
 
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "#"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Name"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Codifications"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Dernière Connexion"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Rappels Programmées")])], -1
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "#"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Name"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Codifications"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Dernière Connexion"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Rappels Programmées"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Actions")])], -1
+/* HOISTED */
+);
+
+var _hoisted_3 = {
+  key: 0
+};
+var _hoisted_4 = ["onClick"];
+var _hoisted_5 = ["onClick"];
+var _hoisted_6 = {
+  key: 1
+};
+
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  "class": "text-danger"
+}, "Confirmation !", -1
 /* HOISTED */
 );
 
@@ -24471,7 +24527,31 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /* TEXT */
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prospect.rappelsInQueueCount), 1
     /* TEXT */
-    )]);
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [$data.user_id != prospect.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn btn-warning mx-2",
+      onClick: function onClick($event) {
+        return $options.resetPass(prospect.id);
+      }
+    }, " Reset Pass ", 8
+    /* PROPS */
+    , _hoisted_4), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn btn-danger",
+      onClick: function onClick($event) {
+        return $options.deleteProspect(prospect.id);
+      }
+    }, " Delete ", 8
+    /* PROPS */
+    , _hoisted_5)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_6, [_hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn btn-success",
+      onClick: _cache[0] || (_cache[0] = function () {
+        return $options.confirm && $options.confirm.apply($options, arguments);
+      })
+    }, " Oui "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn btn-danger",
+      onClick: _cache[1] || (_cache[1] = function () {
+        return $options.cancel && $options.cancel.apply($options, arguments);
+      })
+    }, " Non ")]))])]);
   }), 128
   /* KEYED_FRAGMENT */
   ))])]);
@@ -25147,6 +25227,11 @@ var prospect = {
     },
     PUSH_PROSPECT: function PUSH_PROSPECT(state, prospect) {
       state.prospects.push(prospect);
+    },
+    POP_PROSPECT: function POP_PROSPECT(state, prospect_id) {
+      state.prospects = state.prospects.filter(function (prospect) {
+        return prospect.id != prospect_id;
+      });
     }
   },
   actions: {
@@ -25170,6 +25255,28 @@ var prospect = {
         }
       }).then(function (response) {
         commit("PUSH_PROSPECT", response.data.user);
+      });
+    },
+    resetUserPass: function resetUserPass(_ref3, playLoad) {
+      var commit = _ref3.commit,
+          getters = _ref3.getters;
+      return axios__WEBPACK_IMPORTED_MODULE_0___default().post("api/user/resetUserPass", playLoad, {
+        headers: {
+          Authorization: "Bearer ".concat(getters.loggedUser.access_token)
+        }
+      }).then(function (response) {
+        commit("PUSH_PROSPECT", response.data.user);
+      });
+    },
+    deleteUser: function deleteUser(_ref4, playLoad) {
+      var commit = _ref4.commit,
+          getters = _ref4.getters;
+      return axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]("api/user", playLoad, {
+        headers: {
+          Authorization: "Bearer ".concat(getters.loggedUser.access_token)
+        }
+      }).then(function (response) {
+        commit("POP_PROSPECT", response.data.user.id);
       });
     }
   },

@@ -11,6 +11,7 @@ use App\Models\rdv;
 use App\Models\rappel;
 use App\Models\codif;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -69,5 +70,10 @@ class User extends Authenticatable
     public function rappels()
     {
         return $this->hasMany(rappel::class, "prospect_id", "id");
+    }
+    public function  resetPass()
+    {
+        $this->password = Hash::make($this->email);
+        $this->save();
     }
 }

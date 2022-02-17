@@ -29,6 +29,17 @@ class userController extends Controller
         return response()->json($prospects);
     }
 
+    public function resetUserPass(Request $request)
+    {
+        $request->validate(['user_id' => 'required']);
+        $user = User::find($request->user_id);
+        if (!$user) {
+            return response()->json(["error" => "user id not found"], 404);
+        }
+        $user->resetPass();
+        return response()->json(['user' => $user]);
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -119,6 +130,6 @@ class userController extends Controller
             return response()->json(['error' => 'inexistant User id'], 404);
         }
         $User->delete();
-        return response()->json($User);
+        return response()->json(['user' => $User]);
     }
 }

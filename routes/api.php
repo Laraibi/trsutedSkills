@@ -36,10 +36,11 @@ Route::middleware('auth:sanctum')->group(function () {
     route::apiResource('rdv', rdvController::class);
     route::apiResource('rappel', rappelController::class);
     route::post('searchRappel', [rappelController::class, 'searchRappel']);
+    route::apiResource('client', clientController::class);
     route::middleware(isAdmin::class)->group(function () {
         route::apiResource('user', userController::class);
+        route::post('user/resetUserPass', [userController::class,'resetUserPass']);
         route::apiResource('prestation', prestationController::class);
-        route::apiResource('client', clientController::class);
         route::post('importClients', [clientController::class, 'importFile']);
     });
 });
