@@ -18,7 +18,7 @@ class clientController extends Controller
     public function index()
     {
         //
-        return response()->json(client::all());
+        return response()->json(client::paginate(5));
     }
 
     /**

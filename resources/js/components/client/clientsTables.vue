@@ -81,7 +81,11 @@
                 <td>{{ client.city }}</td>
                 <td>{{ client.tel1 }}</td>
                 <td>
-                    <button @click="showClient(id)" v-if="toDeleteID != id" class="btn btn-info mx-1">
+                    <button
+                        @click="showClient(id)"
+                        v-if="toDeleteID != id"
+                        class="btn btn-info mx-1"
+                    >
                         Show
                     </button>
                     <button
@@ -92,7 +96,7 @@
                         Delete
                     </button>
                     <div class="w-100" v-else>
-                        <span class="text-red"> Confirmation </span><br>
+                        <span class="text-red"> Confirmation </span><br />
                         <button
                             @click="confirmDelete()"
                             class="w-40 f btn btn-success"
@@ -119,7 +123,31 @@
             </tr>
         </tfoot>
     </table>
-    <show-client @close="showClientID=-1" :clientIndex="showClientID" v-if="showClientID != -1" />
+    <div class="row">
+        <div class="col-2">
+            <button class="btn btn-info" @click="prev">Previous</button>
+        </div>
+        <div class="col-1" v-for="(page, index) in pages" :key="index">
+            <button
+                @click="goTO(page)"
+                :class="
+                    paginator.currentPage == page
+                        ? 'btn btn-secondary'
+                        : 'btn btn-info'
+                "
+            >
+                {{ page }}
+            </button>
+        </div>
+        <div class="col-2">
+            <button class="btn btn-info" @click="next">Next</button>
+        </div>
+    </div>
+    <show-client
+        @close="showClientID = -1"
+        :clientIndex="showClientID"
+        v-if="showClientID != -1"
+    />
 </template>
 
 <script>
@@ -139,7 +167,14 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["clients"]),
+        ...mapGetters(["clients", "paginator"]),
+        pages() {
+            let pages = [];
+            for (let i = 1; i <= this.paginator.lastPage; i++) {
+                pages.push(i);
+            }
+            return pages;
+        },
     },
     methods: {
         ...mapActions(["deleteClient"]),
@@ -158,6 +193,29 @@ export default {
         },
         showClient(id) {
             this.showClientID = id;
+        },
+        next() {
+            if (this.paginator.currentPage == this.paginator.lastPage) {
+                this.$store.dispatch("paginate", 1);
+            } else {
+                this.$store.dispatch(
+                    "paginate",
+                    this.paginator.currentPage + 1
+                );
+            }
+        },
+        prev() {
+            if (this.paginator.currentPage == 1) {
+                this.$store.dispatch("paginate", this.paginator.lastPage);
+            } else {
+                this.$store.dispatch(
+                    "paginate",
+                    this.paginator.currentPage - 1
+                );
+            }
+        },
+        goTO(page) {
+            this.$store.dispatch("paginate", page);
         },
     },
 };

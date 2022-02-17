@@ -22772,7 +22772,17 @@ var toast = (0,vue_toastification__WEBPACK_IMPORTED_MODULE_1__.useToast)();
       showClientID: -1
     };
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["clients"])),
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["clients", "paginator"])), {}, {
+    pages: function pages() {
+      var pages = [];
+
+      for (var i = 1; i <= this.paginator.lastPage; i++) {
+        pages.push(i);
+      }
+
+      return pages;
+    }
+  }),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(["deleteClient"])), {}, {
     localDelete: function localDelete(id) {
       this.toDeleteID = id;
@@ -22789,6 +22799,23 @@ var toast = (0,vue_toastification__WEBPACK_IMPORTED_MODULE_1__.useToast)();
     },
     showClient: function showClient(id) {
       this.showClientID = id;
+    },
+    next: function next() {
+      if (this.paginator.currentPage == this.paginator.lastPage) {
+        this.$store.dispatch("paginate", 1);
+      } else {
+        this.$store.dispatch("paginate", this.paginator.currentPage + 1);
+      }
+    },
+    prev: function prev() {
+      if (this.paginator.currentPage == 1) {
+        this.$store.dispatch("paginate", this.paginator.lastPage);
+      } else {
+        this.$store.dispatch("paginate", this.paginator.currentPage - 1);
+      }
+    },
+    goTO: function goTO(page) {
+      this.$store.dispatch("paginate", page);
     }
   })
 });
@@ -23583,6 +23610,16 @@ var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 /* HOISTED */
 );
 
+var _hoisted_9 = {
+  "class": "row"
+};
+var _hoisted_10 = {
+  "class": "col-2"
+};
+var _hoisted_11 = ["onClick"];
+var _hoisted_12 = {
+  "class": "col-2"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_show_client = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("show-client");
 
@@ -23629,9 +23666,33 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, " Non ")]))])]);
   }), 128
   /* KEYED_FRAGMENT */
-  ))]), _hoisted_8]), $data.showClientID != -1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_show_client, {
+  ))]), _hoisted_8]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-info",
+    onClick: _cache[2] || (_cache[2] = function () {
+      return $options.prev && $options.prev.apply($options, arguments);
+    })
+  }, "Previous")]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.pages, function (page, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      "class": "col-1",
+      key: index
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      onClick: function onClick($event) {
+        return $options.goTO(page);
+      },
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(_ctx.paginator.currentPage == page ? 'btn btn-secondary' : 'btn btn-info')
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 11
+    /* TEXT, CLASS, PROPS */
+    , _hoisted_11)]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-info",
+    onClick: _cache[3] || (_cache[3] = function () {
+      return $options.next && $options.next.apply($options, arguments);
+    })
+  }, "Next")])]), $data.showClientID != -1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_show_client, {
     key: 0,
-    onClose: _cache[2] || (_cache[2] = function ($event) {
+    onClose: _cache[4] || (_cache[4] = function ($event) {
       return $data.showClientID = -1;
     }),
     clientIndex: $data.showClientID
@@ -25087,9 +25148,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var client = {
   state: {
-    clients: []
+    clients: [],
+    currentPage: 1,
+    last_page: 1
   },
   mutations: {
+    CHANGE_PAGE: function CHANGE_PAGE(state, number) {
+      state.currentPage = number;
+    },
+    CHANGE_LAST_PAGE: function CHANGE_LAST_PAGE(state, number) {
+      state.last_page = number;
+    },
     FILL_CLIENTS: function FILL_CLIENTS(state, clients) {
       state.clients = clients;
     },
@@ -25107,13 +25176,19 @@ var client = {
   actions: {
     getClients: function getClients(_ref2) {
       var commit = _ref2.commit,
-          getters = _ref2.getters;
+          getters = _ref2.getters,
+          state = _ref2.state;
       return axios__WEBPACK_IMPORTED_MODULE_0___default().get("api/client", {
+        params: {
+          page: state.currentPage
+        },
         headers: {
           Authorization: "Bearer ".concat(getters.loggedUser.access_token)
         }
       }).then(function (response) {
-        commit("FILL_CLIENTS", response.data);
+        commit("FILL_CLIENTS", response.data.data);
+        commit("CHANGE_PAGE", response.data.current_page);
+        commit("CHANGE_LAST_PAGE", response.data.last_page);
       });
     },
     deleteClient: function deleteClient(_ref3, id) {
@@ -25142,6 +25217,12 @@ var client = {
           newClient: response.data
         });
       });
+    },
+    paginate: function paginate(_ref6, page) {
+      var dispatch = _ref6.dispatch,
+          commit = _ref6.commit;
+      commit("CHANGE_PAGE", page);
+      dispatch("getClients");
     }
   },
   getters: {
@@ -25152,6 +25233,12 @@ var client = {
       return state.clients.map(function (elem) {
         return _objectSpread({}, elem);
       });
+    },
+    paginator: function paginator(state) {
+      return {
+        currentPage: state.currentPage,
+        lastPage: state.last_page
+      };
     }
   }
 };

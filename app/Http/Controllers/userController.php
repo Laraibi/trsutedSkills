@@ -25,6 +25,7 @@ class userController extends Controller
         ])->get();
 
 
+        
 
         return response()->json($prospects);
     }
