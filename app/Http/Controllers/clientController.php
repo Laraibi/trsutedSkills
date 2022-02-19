@@ -15,10 +15,15 @@ class clientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        return response()->json(client::paginate(5));
+        $city = $request->city;
+        if ($city != "*" && $city != "") {
+            return response()->json(client::where('city', $city)->paginate(10));
+        }
+
+        return response()->json(client::paginate(10));
     }
 
     /**
@@ -106,5 +111,12 @@ class clientController extends Controller
         $importObject = new clientsImport;
         Excel::import($importObject, $path);
         return response()->json(['importedCount' => $importObject->importedCount]);
+    }
+
+    public function getCities()
+    {
+        return response()->json(client::distinct()->get(['city'])->map(function ($client) {
+            return $client->city;
+        }));
     }
 }

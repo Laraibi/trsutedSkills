@@ -22772,7 +22772,12 @@ var toast = (0,vue_toastification__WEBPACK_IMPORTED_MODULE_1__.useToast)();
       showClientID: -1
     };
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["clients", "paginator"])), {}, {
+  props: {
+    selectedCity: {
+      "default": "*"
+    }
+  },
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["clients", "clientsCount", "paginator"])), {}, {
     pages: function pages() {
       var pages = [];
 
@@ -22804,18 +22809,27 @@ var toast = (0,vue_toastification__WEBPACK_IMPORTED_MODULE_1__.useToast)();
       if (this.paginator.currentPage == this.paginator.lastPage) {
         this.$store.dispatch("paginate", 1);
       } else {
-        this.$store.dispatch("paginate", this.paginator.currentPage + 1);
+        this.$store.dispatch("paginate", {
+          page: this.paginator.currentPage + 1,
+          selectedCity: this.selectedCity
+        });
       }
     },
     prev: function prev() {
       if (this.paginator.currentPage == 1) {
         this.$store.dispatch("paginate", this.paginator.lastPage);
       } else {
-        this.$store.dispatch("paginate", this.paginator.currentPage - 1);
+        this.$store.dispatch("paginate", {
+          page: this.paginator.currentPage - 1,
+          selectedCity: this.selectedCity
+        });
       }
     },
     goTO: function goTO(page) {
-      this.$store.dispatch("paginate", page);
+      this.$store.dispatch("paginate", {
+        page: page,
+        selectedCity: this.selectedCity
+      });
     }
   })
 });
@@ -23278,12 +23292,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _components_client_fromUpload_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/client/fromUpload.vue */ "./resources/js/components/client/fromUpload.vue");
 /* harmony import */ var _components_client_clientsTables_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/client/clientsTables.vue */ "./resources/js/components/client/clientsTables.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      selectedCity: ""
+    };
+  },
   components: {
     fromUpload: _components_client_fromUpload_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     clientsTables: _components_client_clientsTables_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  watch: {
+    selectedCity: function selectedCity() {
+      var _this = this;
+
+      this.$store.dispatch("getClients", this.selectedCity).then(function () {
+        _this.$store.dispatch("paginate");
+      });
+    }
+  },
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["cities"])),
+  mounted: function mounted() {
+    this.$store.dispatch("getCities");
   }
 });
 
@@ -23614,11 +23654,31 @@ var _hoisted_9 = {
   "class": "row"
 };
 var _hoisted_10 = {
-  "class": "col-2"
+  "class": "col-sm-12 col-md-4"
 };
-var _hoisted_11 = ["onClick"];
+var _hoisted_11 = {
+  "class": "dataTables_info",
+  id: "example2_info",
+  role: "status"
+};
 var _hoisted_12 = {
-  "class": "col-2"
+  "class": "col-sm-12 col-md-8"
+};
+var _hoisted_13 = {
+  "class": "dataTables_paginate paging_simple_numbers",
+  id: "example2_paginate"
+};
+var _hoisted_14 = {
+  "class": "pagination"
+};
+var _hoisted_15 = {
+  "class": "paginate_button page-item previous",
+  id: "example2_previous"
+};
+var _hoisted_16 = ["onClick"];
+var _hoisted_17 = {
+  "class": "paginate_button page-item next",
+  id: "example2_next"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_show_client = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("show-client");
@@ -23666,31 +23726,38 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, " Non ")]))])]);
   }), 128
   /* KEYED_FRAGMENT */
-  ))]), _hoisted_8]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-info",
+  ))]), _hoisted_8]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, " Affichage de " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.paginator.currentPage * 10 - 9) + " à " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.paginator.currentPage * 10) + " sur " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.clientsCount) + " Clients ", 1
+  /* TEXT */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    href: "#",
     onClick: _cache[2] || (_cache[2] = function () {
       return $options.prev && $options.prev.apply($options, arguments);
-    })
+    }),
+    "class": "page-link"
   }, "Previous")]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.pages, function (page, index) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      "class": "col-1",
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["paginate_button page-item", _ctx.paginator.currentPage == page ? 'active' : 'o']),
       key: index
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      href: "#",
       onClick: function onClick($event) {
         return $options.goTO(page);
       },
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(_ctx.paginator.currentPage == page ? 'btn btn-secondary' : 'btn btn-info')
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 11
-    /* TEXT, CLASS, PROPS */
-    , _hoisted_11)]);
+      "class": "page-link"
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 9
+    /* TEXT, PROPS */
+    , _hoisted_16)], 2
+    /* CLASS */
+    );
   }), 128
   /* KEYED_FRAGMENT */
-  )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-info",
+  )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    href: "#",
+    "class": "page-link",
     onClick: _cache[3] || (_cache[3] = function () {
       return $options.next && $options.next.apply($options, arguments);
     })
-  }, "Next")])]), $data.showClientID != -1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_show_client, {
+  }, "Next")])])])])]), $data.showClientID != -1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_show_client, {
     key: 0,
     onClose: _cache[4] || (_cache[4] = function ($event) {
       return $data.showClientID = -1;
@@ -24809,15 +24876,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_dash_card, {
     title: 'Prospecteurs',
     count: _ctx.prospectsCount,
-    toDetails: 'prospect',
-    bgColor: 'info',
-    icon: 'bag'
+    toDetails: "prospects",
+    bgColor: "info",
+    icon: "bag"
   }, null, 8
   /* PROPS */
   , ["count"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_dash_card, {
     title: 'Clients',
     count: _ctx.clientsCount,
-    toDetails: 'client',
+    toDetails: "customers",
     bgColor: 'warning',
     icon: 'bag'
   }, null, 8
@@ -24826,7 +24893,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: 'Codifications',
     count: _ctx.codifsCount,
     toDetails: 'codif',
-    bgColor: 'light',
+    bgColor: "light",
     icon: 'bag'
   }, null, 8
   /* PROPS */
@@ -24852,6 +24919,24 @@ var _hoisted_1 = {
   "class": "row"
 };
 var _hoisted_2 = {
+  "class": "row"
+};
+var _hoisted_3 = {
+  "class": "col-6"
+};
+var _hoisted_4 = {
+  "class": "form-group"
+};
+
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "city",
+  "class": "form-label"
+}, "Filtre Ville", -1
+/* HOISTED */
+);
+
+var _hoisted_6 = ["value"];
+var _hoisted_7 = {
   "class": "row justify-content-center mx-2"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -24859,7 +24944,29 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_clients_tables = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("clients-tables");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_from_upload)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_clients_tables)])], 64
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_from_upload)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    name: "cities",
+    id: "city",
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return $data.selectedCity = $event;
+    }),
+    "class": "form-select"
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.cities, function (city, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: index,
+      value: city
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(city), 9
+    /* TEXT, PROPS */
+    , _hoisted_6);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))], 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCity]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_clients_tables, {
+    selectedCity: $data.selectedCity
+  }, null, 8
+  /* PROPS */
+  , ["selectedCity"])])], 64
   /* STABLE_FRAGMENT */
   );
 }
@@ -25149,8 +25256,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var client = {
   state: {
     clients: [],
+    clientsCount: 0,
     currentPage: 1,
-    last_page: 1
+    last_page: 1,
+    clientsCities: []
   },
   mutations: {
     CHANGE_PAGE: function CHANGE_PAGE(state, number) {
@@ -25162,6 +25271,9 @@ var client = {
     FILL_CLIENTS: function FILL_CLIENTS(state, clients) {
       state.clients = clients;
     },
+    FILL_CITIES: function FILL_CITIES(state, cities) {
+      state.cities = cities;
+    },
     DELETE_CLIENT: function DELETE_CLIENT(state, id) {
       state.clients = state.clients.filter(function (client) {
         return client.id != id;
@@ -25171,6 +25283,9 @@ var client = {
       var index = _ref.index,
           newClient = _ref.newClient;
       state.clients[index] = newClient;
+    },
+    UPDATE_CLIENTSCOUNT: function UPDATE_CLIENTSCOUNT(state, count) {
+      state.clientsCount = count;
     }
   },
   actions: {
@@ -25178,22 +25293,42 @@ var client = {
       var commit = _ref2.commit,
           getters = _ref2.getters,
           state = _ref2.state;
+      var city = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "*";
       return axios__WEBPACK_IMPORTED_MODULE_0___default().get("api/client", {
         params: {
-          page: state.currentPage
+          page: state.currentPage,
+          city: city
         },
         headers: {
           Authorization: "Bearer ".concat(getters.loggedUser.access_token)
         }
       }).then(function (response) {
         commit("FILL_CLIENTS", response.data.data);
-        commit("CHANGE_PAGE", response.data.current_page);
+
+        if (parseInt(response.data.current_page) > response.data.last_page) {
+          commit("CHANGE_PAGE", response.data.last_page);
+        } else {
+          commit("CHANGE_PAGE", response.data.current_page);
+        }
+
         commit("CHANGE_LAST_PAGE", response.data.last_page);
+        commit("UPDATE_CLIENTSCOUNT", response.data.total);
       });
     },
-    deleteClient: function deleteClient(_ref3, id) {
+    getCities: function getCities(_ref3) {
       var commit = _ref3.commit,
           getters = _ref3.getters;
+      return axios__WEBPACK_IMPORTED_MODULE_0___default().get("api/clientsCities", {
+        headers: {
+          Authorization: "Bearer ".concat(getters.loggedUser.access_token)
+        }
+      }).then(function (response) {
+        commit("FILL_CITIES", response.data);
+      });
+    },
+    deleteClient: function deleteClient(_ref4, id) {
+      var commit = _ref4.commit,
+          getters = _ref4.getters;
       return axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]("api/client/" + getters.clients[id].id, {
         headers: {
           Authorization: "Bearer ".concat(getters.loggedUser.access_token)
@@ -25202,11 +25337,11 @@ var client = {
         commit("DELETE_CLIENT", response.data.deletedElement.id);
       });
     },
-    updateClient: function updateClient(_ref4, _ref5) {
-      var commit = _ref4.commit,
-          getters = _ref4.getters;
-      var index = _ref5.index,
-          playLoad = _ref5.playLoad;
+    updateClient: function updateClient(_ref5, _ref6) {
+      var commit = _ref5.commit,
+          getters = _ref5.getters;
+      var index = _ref6.index,
+          playLoad = _ref6.playLoad;
       return axios__WEBPACK_IMPORTED_MODULE_0___default().put("api/client/".concat(getters.clients[index].id), playLoad, {
         headers: {
           Authorization: "Bearer ".concat(getters.loggedUser.access_token)
@@ -25218,21 +25353,26 @@ var client = {
         });
       });
     },
-    paginate: function paginate(_ref6, page) {
-      var dispatch = _ref6.dispatch,
-          commit = _ref6.commit;
+    paginate: function paginate(_ref7, _ref8) {
+      var dispatch = _ref7.dispatch,
+          commit = _ref7.commit;
+      var page = _ref8.page,
+          selectedCity = _ref8.selectedCity;
       commit("CHANGE_PAGE", page);
-      dispatch("getClients");
+      dispatch("getClients", selectedCity);
     }
   },
   getters: {
     clientsCount: function clientsCount(state) {
-      return state.clients.length;
+      return state.clientsCount;
     },
     clients: function clients(state) {
       return state.clients.map(function (elem) {
         return _objectSpread({}, elem);
       });
+    },
+    cities: function cities(state) {
+      return state.cities;
     },
     paginator: function paginator(state) {
       return {

@@ -37,6 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
     route::apiResource('rappel', rappelController::class);
     route::post('searchRappel', [rappelController::class, 'searchRappel']);
     route::apiResource('client', clientController::class);
+    route::get('clientsCities',[clientController::class,'getCities']);
     route::middleware(isAdmin::class)->group(function () {
         route::apiResource('user', userController::class);
         route::post('user/resetUserPass', [userController::class,'resetUserPass']);

@@ -123,24 +123,44 @@
             </tr>
         </tfoot>
     </table>
+
     <div class="row">
-        <div class="col-2">
-            <button class="btn btn-info" @click="prev">Previous</button>
+        <div class="col-sm-12 col-md-4">
+            <div class="dataTables_info" id="example2_info" role="status">
+                Affichage de {{ paginator.currentPage * 10 - 9 }} à
+                {{ paginator.currentPage * 10 }} sur {{ clientsCount }} Clients
+            </div>
         </div>
-        <div class="col-1" v-for="(page, index) in pages" :key="index">
-            <button
-                @click="goTO(page)"
-                :class="
-                    paginator.currentPage == page
-                        ? 'btn btn-secondary'
-                        : 'btn btn-info'
-                "
+        <div class="col-sm-12 col-md-8">
+            <div
+                class="dataTables_paginate paging_simple_numbers"
+                id="example2_paginate"
             >
-                {{ page }}
-            </button>
-        </div>
-        <div class="col-2">
-            <button class="btn btn-info" @click="next">Next</button>
+                <ul class="pagination">
+                    <li
+                        class="paginate_button page-item previous"
+                        id="example2_previous"
+                    >
+                        <a href="#" @click="prev" class="page-link">Previous</a>
+                    </li>
+                    <li
+                        class="paginate_button page-item"
+                        v-for="(page, index) in pages"
+                        :key="index"
+                        :class="paginator.currentPage == page ? 'active' : 'o'"
+                    >
+                        <a href="#" @click="goTO(page)" class="page-link">{{
+                            page
+                        }}</a>
+                    </li>
+                    <li
+                        class="paginate_button page-item next"
+                        id="example2_next"
+                    >
+                        <a href="#" class="page-link" @click="next">Next</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
     <show-client
@@ -166,8 +186,13 @@ export default {
             showClientID: -1,
         };
     },
+    props: {
+        selectedCity: {
+            default: "*",
+        },
+    },
     computed: {
-        ...mapGetters(["clients", "paginator"]),
+        ...mapGetters(["clients", "clientsCount", "paginator"]),
         pages() {
             let pages = [];
             for (let i = 1; i <= this.paginator.lastPage; i++) {
@@ -198,24 +223,27 @@ export default {
             if (this.paginator.currentPage == this.paginator.lastPage) {
                 this.$store.dispatch("paginate", 1);
             } else {
-                this.$store.dispatch(
-                    "paginate",
-                    this.paginator.currentPage + 1
-                );
+                this.$store.dispatch("paginate", {
+                    page: this.paginator.currentPage + 1,
+                    selectedCity: this.selectedCity,
+                });
             }
         },
         prev() {
             if (this.paginator.currentPage == 1) {
                 this.$store.dispatch("paginate", this.paginator.lastPage);
             } else {
-                this.$store.dispatch(
-                    "paginate",
-                    this.paginator.currentPage - 1
-                );
+                this.$store.dispatch("paginate", {
+                    page: this.paginator.currentPage - 1,
+                    selectedCity: this.selectedCity,
+                });
             }
         },
         goTO(page) {
-            this.$store.dispatch("paginate", page);
+            this.$store.dispatch("paginate", {
+                page: page,
+                selectedCity: this.selectedCity,
+            });
         },
     },
 };
