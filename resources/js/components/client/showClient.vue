@@ -141,14 +141,16 @@
                     </div>
                     <div class="row">
                         <div class="col-4">
-                            <span>Planifier un rappel</span>
+                            <label class="form-label"
+                                >Planifier un rappel</label
+                            >
                         </div>
                         <div class="col-4">
-                            <Datepicker autoApply  v-model="dateRappel" />
+                            <Datepicker autoApply v-model="dateRappel" />
                         </div>
                         <div class="col-4">
                             <button
-                                class="btn btn-primary"
+                                class="btn btn-info w-100"
                                 @click="planifierRappel"
                             >
                                 Planifer
@@ -156,22 +158,28 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer justify-content-between">
-                    <button
-                        type="button"
-                        class="btn btn-default"
-                        data-dismiss="modal"
-                        @click="this.$emit('close')"
-                    >
-                        Close
-                    </button>
-                    <button
-                        @click="updateClient"
-                        type="button"
-                        class="btn btn-primary"
-                    >
-                        Save changes
-                    </button>
+                <div class="modal-footer">
+                    <div class="row justify-content-between">
+                        <div class="col-4">
+                            <button
+                                type="button"
+                                class="btn btn-default"
+                                data-dismiss="modal"
+                                @click="this.$emit('close')"
+                            >
+                                Close
+                            </button>
+                        </div>
+                        <div class="col-4">
+                            <button
+                                @click="updateClient"
+                                type="button"
+                                class="btn btn-primary w-100"
+                            >
+                                Save changes
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- /.modal-content -->

@@ -36,8 +36,8 @@
                 </select>
             </div>
         </div>
-        <div class="col-3 d-flex align-items-baseline">
-            <button class="btn btn-primary" @click="search">Search</button>
+        <div class="col-3 d-flex align-items-center">
+            <button class="btn btn-primary w-100 h-50 " @click="search">Search</button>
         </div>
     </div>
 </template>

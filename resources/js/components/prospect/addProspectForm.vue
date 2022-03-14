@@ -46,8 +46,8 @@
             </div>
         </div>
     </div>
-    <div class="row justify-content-end mt-2">
-        <div class="col-4">
+    <div class="row justify-content-end ">
+        <div class="col-6">
             <button class="btn btn-success w-100" @click="addProspect">
                 Ajouter
             </button>
@@ -69,14 +69,6 @@ export default {
     },
     methods: {
         addProspect() {
-            // if (this.password != this.passwordConfirm) {
-            //     toast.error("Passwords non conformes");
-            //     return;
-            // }
-            // if (this.name == "" || this.email == "") {
-            //     toast.error("Remplissez le formulaire SVP");
-            //     return;
-            // }
             let playLoad = {
                 name: this.name,
                 email: this.email,

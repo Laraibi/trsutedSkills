@@ -1,12 +1,14 @@
 <template>
-    <h3>Prospects</h3>
-    <div class="row justify-content-center mb-5">
-        <div class="col-8">
+    <div class="row mx-4">
+        <h3>Prospects</h3>
+    </div>
+    <div class="row justify-content-center mt-5 rowSection">
+        <div class="col">
             <add-prospect-form />
         </div>
     </div>
-    <div class="row justify-content-center">
-        <div class="col-10">
+    <div class="row justify-content-center mt-5 rowSection">
+        <div class="col">
             <prospects-table />
         </div>
     </div>
@@ -23,4 +25,13 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.rowSection {
+    margin-right: 2em;
+    margin-left: 2em;
+    padding: 1em 1em;
+    border: 0.1px solid rgb(54, 54, 54);
+    box-shadow: 5px 5px 5px rgb(173, 173, 173);
+    border-radius: 2px;
+}
+</style>

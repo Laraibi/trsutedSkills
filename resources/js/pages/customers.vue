@@ -1,8 +1,8 @@
 <template>
-    <div class="row">
+    <div class="row rowSection mt-5">
         <from-upload></from-upload>
     </div>
-    <div class="row">
+    <div class="row rowSection mt-5">
         <div class="col-6">
             <div class="form-group">
                 <label for="city" class="form-label">Filtre Ville</label>
@@ -23,7 +23,7 @@
             </div>
         </div>
     </div>
-    <div class="row justify-content-center mx-2">
+    <div class="row rowSection justify-content-center mt-5">
         <clients-tables :selectedCity="selectedCity"></clients-tables>
     </div>
 </template>
@@ -56,4 +56,13 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.rowSection {
+    margin-right: 2em;
+    margin-left: 2em;
+    padding: 1em 1em;
+    border: 0.1px solid rgb(54, 54, 54);
+    box-shadow: 5px 5px 5px rgb(173, 173, 173);
+    border-radius: 2px;
+}
+</style>

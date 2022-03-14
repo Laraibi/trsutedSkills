@@ -36,8 +36,8 @@
                             Delete
                         </button>
                     </span>
-                    <span v-else>
-                        <p class="text-danger">Confirmation !</p>
+                    <span id="confirmMsg" v-else>
+                        <p id="" class="text-danger ">Confirmation !</p>
                         <button class="btn btn-success" @click="confirm">
                             Oui
                         </button>
@@ -95,4 +95,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+#confirmMsg, #confirmMsg p {
+    font-weight: bold;
+    padding: 0% !important;
+    margin: 0% !important;
+}
+</style>

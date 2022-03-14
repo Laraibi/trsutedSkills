@@ -66,15 +66,15 @@
                 <th>{{ id + 1 }}</th>
                 <td>
                     {{
-                        client.companyName.length > 50
-                            ? client.companyName.substr(0, 47) + "..."
+                        client.companyName.length > 30
+                            ? client.companyName.substr(0, 27) + "..."
                             : client.companyName
                     }}
                 </td>
                 <td>
                     {{
-                        client.activity.length > 50
-                            ? client.activity.substr(0, 47) + "..."
+                        client.activity.length > 30
+                            ? client.activity.substr(0, 27) + "..."
                             : client.activity
                     }}
                 </td>
@@ -133,7 +133,7 @@
         </div>
         <div class="col-sm-12 col-md-8">
             <div
-                class="dataTables_paginate paging_simple_numbers"
+                class="dataTables_paginate paging_simple_numbers float-right "
                 id="example2_paginate"
             >
                 <ul class="pagination">
